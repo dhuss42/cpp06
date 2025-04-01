@@ -19,14 +19,6 @@ ScalarConverter::~ScalarConverter()
 {
 }
 
-// detect type of literal passed
-// convert it from str to actual type
-// then convert it to the three other data types
-// display results below
-
-// if conversion does not make sense or overflows
-// -> display message
-
 bool	isInt(std::string str)
 {
 	bool	isInt = true;
@@ -42,7 +34,7 @@ bool	isInt(std::string str)
 	return (true);
 }
 
-int ScalarConverter::detectType(std::string str)
+int	ScalarConverter::detectType(std::string str)
 {
 	if (str.length() == 3 && str[0] == '\'' && str[2] == '\'' && isprint(str[1]))
 		return (CHAR);
@@ -57,34 +49,6 @@ int ScalarConverter::detectType(std::string str)
 	else if (str.find('.') != std::string::npos)
 		return (DOUBLE);
 	return (INVALID);
-}
-
-void	ScalarConverter::printType(int type)
-{
-	switch (type)
-	{
-		case CHAR:
-			std::cout << "Detected Type: CHAR" << std::endl;
-			break;
-		case INT:
-			std::cout << "Detected Type: INT" << std::endl;
-			break;
-		case FLOAT:
-			std::cout << "Detected Type: FLOAT" << std::endl;
-			break;
-		case DOUBLE:
-			std::cout << "Detected Type: DOUBLE" << std::endl;
-			break;
-		case SPECIALDOUBLE:
-			std::cout << "Detected Type: SPECIALDOUBLE" << std::endl;
-			break;
-		case SPECIALFLOAT:
-			std::cout << "Detected Type: SPECIALFLOAT" << std::endl;
-			break;
-		default:
-			std::cout << "Detected Type: INVALID" << std::endl;
-			break;
-	}
 }
 
 double ScalarConverter::doubleConversion(std::string str, int type)
@@ -182,13 +146,90 @@ void ScalarConverter::parsing(std::string str, int& type)
 		exit(EXIT_FAILURE);
 	}
 	type = detectType(str);
-	printType(type);
 	if (type == INVALID)
 	{
 		std::cerr << "Error: type is invalid, cannot convert!" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 	return ;
+}
+
+void	printInt(double value)
+{
+	int num;
+
+	std::cout << "int:\t";
+	if (value > INT_MIN && value < INT_MAX)
+		num = static_cast<int>(value);		
+	else
+	{
+		std::cout << "impossible" << std::endl;
+		return ;
+	}
+	std::cout << num << std::endl;	
+}
+
+void	printChar(double value)
+{
+	char c;
+	std::cout << "char:\t";
+	if (value >= 0 && value <= 127)
+		c = static_cast<char>(value);
+	else
+	{
+		std::cout << "impossible" << std::endl;
+		return ;
+	}
+	if (isprint(c))
+		std::cout << "\'" << c << "'";
+	else
+	{
+		std::cout << "Non displayable" << std::endl;
+		return ;
+	}
+	std::cout << std::endl;
+}
+
+void	printFloat(double value)
+{
+	float	num;
+
+	std::cout << "float:\t";
+	if (std::isnan(value))
+	{
+		std::cout << "nanf" << std::endl;
+		return ;
+	}
+	if (value >= -std::numeric_limits<float>::max() && value <= std::numeric_limits<float>::max())
+		num = static_cast<float>(value);
+	else if (value == std::numeric_limits<float>::infinity() || value == -std::numeric_limits<float>::infinity())
+		num = static_cast<float>(value);
+	else
+	{
+		std::cout << "impossible" << std::endl;
+		return ;
+	}
+	if (num == static_cast<int>(num))
+		std::cout << num << ".0f" << std::endl;
+	else
+		std::cout << num << "f" << std::endl;
+}
+
+void	printDouble(double value)
+{
+	std::cout << "double:\t";
+	if (value == static_cast<int>(value))
+		std::cout << value << ".0" << std::endl;
+	else
+		std::cout << value << std::endl;
+}
+
+void printValues(double value)
+{
+	printChar(value);
+	printInt(value);
+	printFloat(value);
+	printDouble(value);
 }
 
 void ScalarConverter::convert(std::string str)
@@ -198,21 +239,5 @@ void ScalarConverter::convert(std::string str)
 
 	parsing(str, type);
 	result = initialConversion(str, type);
-	std::cout << "result: " << result << std::endl;
-	// print all converted values from double 
+	printValues(result);
 }
-
-
-
-
-
-//convert to char   
-		// 'c'
-	//convert to int
-		// 0, -42, 42
-	//convert to float
-		// 0.0f, -4.2f, 4.2f, -inff, +inff
-	//convert to double
-		// 0.0, -4,2, 4,2, -inf, +inf, nan
-
-	// static_cast <dest_type> (source)
