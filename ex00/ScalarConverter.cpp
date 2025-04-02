@@ -1,20 +1,32 @@
 #include "ScalarConverter.hpp"
 
+/*----------------------*/
+/* Constructor			*/
+/*----------------------*/
 ScalarConverter::ScalarConverter()
 {
 }
 
+/*----------------------*/
+/* Copy Constructor		*/
+/*----------------------*/
 ScalarConverter::ScalarConverter(const ScalarConverter& src)
 {
 	(void) src;
 }
 
+/*----------------------*/
+/* Assignment Operator	*/
+/*----------------------*/
 ScalarConverter& ScalarConverter::operator=(const ScalarConverter& other)
 {
 	(void) other;
 	return (*this);
 }
 
+/*----------------------*/
+/* Destructor			*/
+/*----------------------*/
 ScalarConverter::~ScalarConverter()
 {
 }
@@ -34,6 +46,88 @@ bool	isInt(std::string str)
 	return (true);
 }
 
+//------------helper-------------//
+
+void	printInt(double value)
+{
+	int num;
+
+	std::cout << "int:\t";
+	if (value > INT_MIN && value < INT_MAX)
+		num = static_cast<int>(value);		
+	else
+	{
+		std::cout << "impossible" << std::endl;
+		return ;
+	}
+	std::cout << num << std::endl;	
+}
+
+//------------print functons-------------//
+void	printChar(double value)
+{
+	char c;
+	std::cout << "char:\t";
+	if (value >= 0 && value <= 127)
+		c = static_cast<char>(value);
+	else
+	{
+		std::cout << "impossible" << std::endl;
+		return ;
+	}
+	if (isprint(c))
+		std::cout << "\'" << c << "'";
+	else
+	{
+		std::cout << "Non displayable" << std::endl;
+		return ;
+	}
+	std::cout << std::endl;
+}
+
+void	printFloat(double value)
+{
+	float	num;
+
+	std::cout << "float:\t";
+	if (std::isnan(value))
+	{
+		std::cout << "nanf" << std::endl;
+		return ;
+	}
+	if (value >= -std::numeric_limits<float>::max() && value <= std::numeric_limits<float>::max())
+		num = static_cast<float>(value);
+	else if (value == std::numeric_limits<float>::infinity() || value == -std::numeric_limits<float>::infinity())
+		num = static_cast<float>(value);
+	else
+	{
+		std::cout << "impossible" << std::endl;
+		return ;
+	}
+	if (num == static_cast<int>(num))
+		std::cout << num << ".0f" << std::endl;
+	else
+		std::cout << num << "f" << std::endl;
+}
+
+void	printDouble(double value)
+{
+	std::cout << "double:\t";
+	if (value == static_cast<int>(value))
+		std::cout << value << ".0" << std::endl;
+	else
+		std::cout << value << std::endl;
+}
+
+void printValues(double value)
+{
+	printChar(value);
+	printInt(value);
+	printFloat(value);
+	printDouble(value);
+}
+
+//------------member methods-------------//
 int	ScalarConverter::detectType(std::string str)
 {
 	if (str.length() == 3 && str[0] == '\'' && str[2] == '\'' && isprint(str[1]))
@@ -152,84 +246,6 @@ void ScalarConverter::parsing(std::string str, int& type)
 		exit(EXIT_FAILURE);
 	}
 	return ;
-}
-
-void	printInt(double value)
-{
-	int num;
-
-	std::cout << "int:\t";
-	if (value > INT_MIN && value < INT_MAX)
-		num = static_cast<int>(value);		
-	else
-	{
-		std::cout << "impossible" << std::endl;
-		return ;
-	}
-	std::cout << num << std::endl;	
-}
-
-void	printChar(double value)
-{
-	char c;
-	std::cout << "char:\t";
-	if (value >= 0 && value <= 127)
-		c = static_cast<char>(value);
-	else
-	{
-		std::cout << "impossible" << std::endl;
-		return ;
-	}
-	if (isprint(c))
-		std::cout << "\'" << c << "'";
-	else
-	{
-		std::cout << "Non displayable" << std::endl;
-		return ;
-	}
-	std::cout << std::endl;
-}
-
-void	printFloat(double value)
-{
-	float	num;
-
-	std::cout << "float:\t";
-	if (std::isnan(value))
-	{
-		std::cout << "nanf" << std::endl;
-		return ;
-	}
-	if (value >= -std::numeric_limits<float>::max() && value <= std::numeric_limits<float>::max())
-		num = static_cast<float>(value);
-	else if (value == std::numeric_limits<float>::infinity() || value == -std::numeric_limits<float>::infinity())
-		num = static_cast<float>(value);
-	else
-	{
-		std::cout << "impossible" << std::endl;
-		return ;
-	}
-	if (num == static_cast<int>(num))
-		std::cout << num << ".0f" << std::endl;
-	else
-		std::cout << num << "f" << std::endl;
-}
-
-void	printDouble(double value)
-{
-	std::cout << "double:\t";
-	if (value == static_cast<int>(value))
-		std::cout << value << ".0" << std::endl;
-	else
-		std::cout << value << std::endl;
-}
-
-void printValues(double value)
-{
-	printChar(value);
-	printInt(value);
-	printFloat(value);
-	printDouble(value);
 }
 
 void ScalarConverter::convert(std::string str)
