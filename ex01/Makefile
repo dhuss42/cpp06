@@ -1,9 +1,9 @@
 CC = c++
 CPPFILES = main.cpp\
-	ScalarConverter.cpp
+	Serialize.cpp
 OFILES = $(CPPFILES:.cpp=.o)
 FLAGS = -Wall -Werror -Wextra -std=c++17
-NAME = ex00
+NAME = ex01
 
 $(NAME) : $(OFILES)
 	$(CC) $(FLAGS) $(OFILES) -o $(NAME)
