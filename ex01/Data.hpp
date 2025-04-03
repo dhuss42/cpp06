@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Data.hpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/03 08:48:57 by dhuss             #+#    #+#             */
+/*   Updated: 2025/04/03 08:49:04 by dhuss            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DATA_HPP
 # define DATA_HPP
 
@@ -12,11 +24,5 @@ typedef struct s_Data
 	char		c;
 	std::string s;
 } Data;
-
-// std::ostream& operator<<(std::ostream& os, const Data& data)
-// {
-// 	os << "Data struct" << "\n\tint i:\t\t" << data.i << "\n\tfloat f:\t" << data.f << "\n\tdouble d:\t" << data.d << "\n\tchar c:\t\t" << data.c << "\n\tstring s:\t" << data.s;
-// 	return (os);
-// }
 
 #endif

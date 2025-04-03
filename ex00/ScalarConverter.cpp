@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ScalarConverter.cpp                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/03 08:48:42 by dhuss             #+#    #+#             */
+/*   Updated: 2025/04/03 08:48:42 by dhuss            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ScalarConverter.hpp"
 
 /*----------------------*/
@@ -54,13 +66,13 @@ void	printInt(double value)
 
 	std::cout << "int:\t";
 	if (value > INT_MIN && value < INT_MAX)
-		num = static_cast<int>(value);		
+		num = static_cast<int>(value);
 	else
 	{
 		std::cout << "impossible" << std::endl;
 		return ;
 	}
-	std::cout << num << std::endl;	
+	std::cout << num << std::endl;
 }
 
 //------------print functons-------------//
@@ -216,7 +228,7 @@ double ScalarConverter::intConversion(std::string str, int type)
 
 double ScalarConverter::charConversion(std::string str, int type)
 {
-	return (static_cast<double>(str[1]));	
+	return (static_cast<double>(str[1]));
 }
 
 double ScalarConverter::initialConversion(std::string str, int type)

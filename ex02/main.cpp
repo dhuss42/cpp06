@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/03 08:49:58 by dhuss             #+#    #+#             */
+/*   Updated: 2025/04/03 08:49:59 by dhuss            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "A.hpp"
 #include "B.hpp"
 #include "C.hpp"
@@ -52,7 +64,7 @@ void identify(Base* p)
 void identify(Base& p)
 {
 	std::cout << "random istance is of type: ";
-	try 
+	try
 	{
 		A a = dynamic_cast<A&>(p);
 		std::cout << "A" << std::endl;
