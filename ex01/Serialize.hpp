@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 08:49:37 by dhuss             #+#    #+#             */
-/*   Updated: 2025/04/03 08:49:37 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/04/15 10:29:10 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@
 /* 	- automatically adapts to the architecture 32/64 bits 							*/
 /*----------------------------------------------------------------------------------*/
 
-class Serialize
+class Serializer
 {
 	private:
-		Serialize();
-		Serialize(const Serialize& src);
-		Serialize& operator=(Serialize& other);
-		~Serialize();
+		Serializer();
+		Serializer(const Serializer& src);
+		Serializer& operator=(Serializer& other);
+		~Serializer();
 	public:
 		static	uintptr_t	serialize(Data* ptr);
 		static	Data*		deserialize(uintptr_t raw);

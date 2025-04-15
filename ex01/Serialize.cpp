@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 08:49:33 by dhuss             #+#    #+#             */
-/*   Updated: 2025/04/03 08:49:34 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/04/15 10:29:16 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /*----------------------*/
 /* Constructor			*/
 /*----------------------*/
-Serialize::Serialize()
+Serializer::Serializer()
 {
 }
 
 /*----------------------*/
 /* Copy Constructor		*/
 /*----------------------*/
-Serialize::Serialize(const Serialize& src)
+Serializer::Serializer(const Serializer& src)
 {
 	(void)	src;
 }
@@ -30,7 +30,7 @@ Serialize::Serialize(const Serialize& src)
 /*----------------------*/
 /* Assignment Operator	*/
 /*----------------------*/
-Serialize& Serialize::operator=(Serialize& other)
+Serializer& Serializer::operator=(Serializer& other)
 {
 	(void)	other;
 	return (*this);
@@ -39,7 +39,7 @@ Serialize& Serialize::operator=(Serialize& other)
 /*----------------------*/
 /* Destructor			*/
 /*----------------------*/
-Serialize::~Serialize()
+Serializer::~Serializer()
 {
 }
 
@@ -48,7 +48,7 @@ Serialize::~Serialize()
 /*--------------------------*/
 /* converts ptr to uintptr	*/
 /*--------------------------*/
-uintptr_t	Serialize::serialize(Data* ptr)
+uintptr_t	Serializer::serialize(Data* ptr)
 {
 	return (reinterpret_cast<uintptr_t>(ptr));
 }
@@ -56,7 +56,7 @@ uintptr_t	Serialize::serialize(Data* ptr)
 /*--------------------------*/
 /* converts uintptr to ptr	*/
 /*--------------------------*/
-Data*	Serialize::deserialize(uintptr_t raw)
+Data*	Serializer::deserialize(uintptr_t raw)
 {
 	return (reinterpret_cast<Data*>(raw));
 }

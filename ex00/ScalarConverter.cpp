@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 08:48:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/04/03 08:48:42 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/04/15 12:46:56 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,29 +43,14 @@ ScalarConverter::~ScalarConverter()
 {
 }
 
-bool	isInt(std::string str)
-{
-	bool	isInt = true;
-	int		i = 0;
-
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	for (; i < str.length(); i++)
-	{
-		if (!isdigit(str[i]))
-			return (false);
-	}
-	return (true);
-}
-
-//------------helper-------------//
+//------------print functons-------------//
 
 void	printInt(double value)
 {
 	int num;
 
 	std::cout << "int:\t";
-	if (value > INT_MIN && value < INT_MAX)
+	if (value >= INT_MIN && value <= INT_MAX && static_cast<int>(value) == value)
 		num = static_cast<int>(value);
 	else
 	{
@@ -75,12 +60,11 @@ void	printInt(double value)
 	std::cout << num << std::endl;
 }
 
-//------------print functons-------------//
 void	printChar(double value)
 {
 	char c;
 	std::cout << "char:\t";
-	if (value >= 0 && value <= 127)
+	if (value >= 0 && value <= 127 && static_cast<char>(value) == value)
 		c = static_cast<char>(value);
 	else
 	{
@@ -131,7 +115,7 @@ void	printDouble(double value)
 		std::cout << value << std::endl;
 }
 
-void printValues(double value)
+void	printValues(double value)
 {
 	printChar(value);
 	printInt(value);
@@ -139,25 +123,9 @@ void printValues(double value)
 	printDouble(value);
 }
 
-//------------member methods-------------//
-int	ScalarConverter::detectType(std::string str)
-{
-	if (str.length() == 3 && str[0] == '\'' && str[2] == '\'' && isprint(str[1]))
-		return (CHAR);
-	else if (str == "+inf" || str == "-inf" || str == "nan")
-		return (SPECIALDOUBLE);
-	else if (str == "+inff" || str == "-inff" || str == "nanf")
-		return (SPECIALFLOAT);
-	else if (isInt(str))
-		return (INT);
-	else if (str.back() == 'f' && str.find('.') != std::string::npos)
-		return (FLOAT);
-	else if (str.find('.') != std::string::npos)
-		return (DOUBLE);
-	return (INVALID);
-}
+//----------------------initial conversion------------------------//
 
-double ScalarConverter::doubleConversion(std::string str, int type)
+double	doubleConversion(std::string str)
 {
 	if (str == "+inf")
 		return (static_cast<double>(std::numeric_limits<double>::infinity()));
@@ -183,7 +151,7 @@ double ScalarConverter::doubleConversion(std::string str, int type)
 	}
 }
 
-double ScalarConverter::floatConversion(std::string str, int type)
+double	floatConversion(std::string str)
 {
 	if (str == "+inff")
 		return (static_cast<double>(std::numeric_limits<float>::infinity()));
@@ -209,7 +177,7 @@ double ScalarConverter::floatConversion(std::string str, int type)
 	}
 }
 
-double ScalarConverter::intConversion(std::string str, int type)
+double	intConversion(std::string str)
 {
 	try
 	{
@@ -226,40 +194,94 @@ double ScalarConverter::intConversion(std::string str, int type)
 	return (std::numeric_limits<double>::quiet_NaN());
 }
 
-double ScalarConverter::charConversion(std::string str, int type)
+double	charConversion(std::string str)
 {
 	return (static_cast<double>(str[1]));
 }
 
-double ScalarConverter::initialConversion(std::string str, int type)
+double	initialConversion(std::string str, int type)
 {
 	if (type == CHAR)
-		return (charConversion(str, type));
+		return (charConversion(str));
 	else if (type == INT)
-		return (intConversion(str, type));
+		return (intConversion(str));
 	else if (type == FLOAT || type == SPECIALFLOAT)
-		return (floatConversion(str, type));
+		return (floatConversion(str));
 	else if (type == DOUBLE || type == SPECIALDOUBLE)
-		return (doubleConversion(str, type));
+		return (doubleConversion(str));
 	return (0);
 }
 
-void ScalarConverter::parsing(std::string str, int& type)
+bool	isInt(std::string str)
+{
+	bool	isInt = true;
+	int		i = 0;
+
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	for (; i < str.length(); i++)
+	{
+		if (!isdigit(str[i]))
+			return (false);
+	}
+	return (true);
+}
+
+//----------------------parsing------------------------//
+
+int	detectType(std::string str)
+{
+	if (str.length() == 3 && str[0] == '\'' && str[2] == '\'' && isprint(str[1]))
+		return (CHAR);
+	else if (str == "+inf" || str == "-inf" || str == "nan")
+		return (SPECIALDOUBLE);
+	else if (str == "+inff" || str == "-inff" || str == "nanf")
+		return (SPECIALFLOAT);
+	else if (isInt(str))
+		return (INT);
+	else if (str.back() == 'f' && str.find('.') != std::string::npos)
+		return (FLOAT);
+	else if (str.find('.') != std::string::npos)
+		return (DOUBLE);
+	return (INVALID);
+}
+
+bool	multiple_decimals(std::string str)
+{
+	int count = 0;
+
+	for (int i = 0; i < str.length(); i++)
+	{
+		if (str[i] == '.')
+			count++;
+	}
+	if (count > 1)
+		return (true);
+	return (false);
+}
+
+void	parsing(std::string str, int& type)
 {
 	if (str.empty())
 	{
 		std::cerr << "Error: cannot convert Empty string!" << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	type = detectType(str);
+	if (multiple_decimals(str))
+		type = INVALID;
+	if (type != INVALID)
+		type = detectType(str);
 	if (type == INVALID)
 	{
 		std::cerr << "Error: type is invalid, cannot convert!" << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	return ;
 }
 
+//----------------------member function------------------------//
+/*--------------------------*/
+/* convert function			*/
+/*--------------------------*/
 void ScalarConverter::convert(std::string str)
 {
 	double	result;
@@ -269,3 +291,7 @@ void ScalarConverter::convert(std::string str)
 	result = initialConversion(str, type);
 	printValues(result);
 }
+
+// "4.f"
+// "1.17549e-38f"
+// 2.22507e-308
