@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 08:48:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/04/28 16:22:40 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/04/28 17:02:29 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,19 +245,42 @@ int	detectType(std::string str)
 	return (INVALID);
 }
 
-bool	multiple_decimals(std::string str)
-{
-	int count = 0;
 
-	for (size_t i = 0; i < str.length(); i++)
-	{
-		if (str[i] == '.')
-			count++;
-	}
-	if (count > 1)
-		return (true);
-	return (false);
+/*------------------------------------------------------------------*/
+/* regex pattern													*/
+/* 		^		match must start at the very beginning of string	*/
+/* 		[-+]?	Zero or one occurance of +, -						*/
+/* 		[0-9]+	One or more digits									*/
+/* 		\\.		. character escaped									*/
+/* 		[0-9]*	zero or more digits after .							*/
+/* 		f		the character f										*/
+/* 		$		end of the string									*/
+/*------------------------------------------------------------------*/
+bool	isValidFloatFormat(const std::string& str)
+{
+	std::regex floatPattern("^[-+]?[0-9]+\\.[0-9]*([eE][-+]?[0-9]+)?f$");
+	return (std::regex_match(str, floatPattern));
 }
+
+bool	isValidDoubleFormat(const std::string& str)
+{
+	std::regex doublePattern("^[-+]?[0-9]+\\.[0-9]*([eE][-+]?[0-9]+)?$");
+	return (std::regex_match(str, doublePattern));
+}
+
+// bool	multiple_decimals(std::string str)
+// {
+// 	int count = 0;
+
+// 	for (size_t i = 0; i < str.length(); i++)
+// 	{
+// 		if (str[i] == '.')
+// 			count++;
+// 	}
+// 	if (count > 1)
+// 		return (true);
+// 	return (false);
+// }
 
 void	parsing(std::string str, int& type)
 {
@@ -266,10 +289,14 @@ void	parsing(std::string str, int& type)
 		std::cerr << "Error: cannot convert Empty string!" << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	if (multiple_decimals(str))
-		type = INVALID;
-	if (type != INVALID)
+	// if (multiple_decimals(str))
+	// 	type = INVALID;
+	// if (type != INVALID)
 		type = detectType(str);
+	if (type == FLOAT && !isValidFloatFormat(str))
+		type = INVALID;
+	if (type == DOUBLE && !isValidDoubleFormat(str))
+		type = INVALID;
 	if (type == INVALID)
 	{
 		std::cerr << "Error: type is invalid, cannot convert!" << std::endl;
