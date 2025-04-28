@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 08:48:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/04/15 12:46:56 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/04/28 16:22:40 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,11 @@ double	doubleConversion(std::string str)
 		}
 		catch (const std::invalid_argument& e)
 		{
-			std::cerr << "Error: Invalid double input!" << std::endl;
+			// std::cerr << "Error: Invalid double input!" << std::endl;
 		}
 		catch (const std::out_of_range& e)
 		{
-			std::cerr << "Error: Double out of range!" << std::endl;
+			// std::cerr << "Error: Double out of range!" << std::endl;
 		}
 		return (std::numeric_limits<double>::quiet_NaN());
 	}
@@ -167,11 +167,11 @@ double	floatConversion(std::string str)
 		}
 		catch (const std::invalid_argument& e)
 		{
-			std::cerr << "Error: Invalid float input!" << std::endl;
+			// std::cerr << "Error: Invalid float input!" << std::endl;
 		}
 		catch (const std::out_of_range& e)
 		{
-			std::cerr << "Error: Float out of range!" << std::endl;
+			// std::cerr << "Error: Float out of range!" << std::endl;
 		}
 		return (std::numeric_limits<double>::quiet_NaN());
 	}
@@ -185,11 +185,11 @@ double	intConversion(std::string str)
 	}
 	catch (const std::invalid_argument& e)
 	{
-		std::cerr << "Error: Invalid int input!" << std::endl;
+		// std::cerr << "Error: Invalid int input!" << std::endl;
 	}
 	catch (const std::out_of_range& e)
 	{
-		std::cerr << "Error: Int out of range!" << std::endl;
+		// std::cerr << "Error: Int out of range!" << std::endl;
 	}
 	return (std::numeric_limits<double>::quiet_NaN());
 }
@@ -214,8 +214,7 @@ double	initialConversion(std::string str, int type)
 
 bool	isInt(std::string str)
 {
-	bool	isInt = true;
-	int		i = 0;
+	size_t		i = 0;
 
 	if (str[i] == '+' || str[i] == '-')
 		i++;
@@ -250,7 +249,7 @@ bool	multiple_decimals(std::string str)
 {
 	int count = 0;
 
-	for (int i = 0; i < str.length(); i++)
+	for (size_t i = 0; i < str.length(); i++)
 	{
 		if (str[i] == '.')
 			count++;
@@ -291,7 +290,3 @@ void ScalarConverter::convert(std::string str)
 	result = initialConversion(str, type);
 	printValues(result);
 }
-
-// "4.f"
-// "1.17549e-38f"
-// 2.22507e-308
