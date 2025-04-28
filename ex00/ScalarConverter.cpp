@@ -139,14 +139,8 @@ double	doubleConversion(std::string str)
 		{
 			return (std::stod(str));
 		}
-		catch (const std::invalid_argument& e)
-		{
-			// std::cerr << "Error: Invalid double input!" << std::endl;
-		}
-		catch (const std::out_of_range& e)
-		{
-			// std::cerr << "Error: Double out of range!" << std::endl;
-		}
+		catch (const std::invalid_argument& e){}
+		catch (const std::out_of_range& e){}
 		return (std::numeric_limits<double>::quiet_NaN());
 	}
 }
@@ -165,14 +159,8 @@ double	floatConversion(std::string str)
 		{
 			return (static_cast<double>(std::stof(str)));
 		}
-		catch (const std::invalid_argument& e)
-		{
-			// std::cerr << "Error: Invalid float input!" << std::endl;
-		}
-		catch (const std::out_of_range& e)
-		{
-			// std::cerr << "Error: Float out of range!" << std::endl;
-		}
+		catch (const std::invalid_argument& e){}
+		catch (const std::out_of_range& e){}
 		return (std::numeric_limits<double>::quiet_NaN());
 	}
 }
@@ -183,14 +171,8 @@ double	intConversion(std::string str)
 	{
 		return (static_cast<double>(std::stoi(str)));
 	}
-	catch (const std::invalid_argument& e)
-	{
-		// std::cerr << "Error: Invalid int input!" << std::endl;
-	}
-	catch (const std::out_of_range& e)
-	{
-		// std::cerr << "Error: Int out of range!" << std::endl;
-	}
+	catch (const std::invalid_argument& e){}
+	catch (const std::out_of_range& e){}
 	return (std::numeric_limits<double>::quiet_NaN());
 }
 
@@ -212,6 +194,8 @@ double	initialConversion(std::string str, int type)
 	return (0);
 }
 
+//----------------------parsing------------------------//
+
 bool	isInt(std::string str)
 {
 	size_t		i = 0;
@@ -225,8 +209,6 @@ bool	isInt(std::string str)
 	}
 	return (true);
 }
-
-//----------------------parsing------------------------//
 
 int	detectType(std::string str)
 {
@@ -245,7 +227,6 @@ int	detectType(std::string str)
 	return (INVALID);
 }
 
-
 /*------------------------------------------------------------------*/
 /* regex pattern													*/
 /* 		^		match must start at the very beginning of string	*/
@@ -253,6 +234,8 @@ int	detectType(std::string str)
 /* 		[0-9]+	One or more digits									*/
 /* 		\\.		. character escaped									*/
 /* 		[0-9]*	zero or more digits after .							*/
+/* 		()		groups together into one unit						*/
+/* 		?		makes that unit optional							*/
 /* 		f		the character f										*/
 /* 		$		end of the string									*/
 /*------------------------------------------------------------------*/
@@ -268,20 +251,6 @@ bool	isValidDoubleFormat(const std::string& str)
 	return (std::regex_match(str, doublePattern));
 }
 
-// bool	multiple_decimals(std::string str)
-// {
-// 	int count = 0;
-
-// 	for (size_t i = 0; i < str.length(); i++)
-// 	{
-// 		if (str[i] == '.')
-// 			count++;
-// 	}
-// 	if (count > 1)
-// 		return (true);
-// 	return (false);
-// }
-
 void	parsing(std::string str, int& type)
 {
 	if (str.empty())
@@ -289,10 +258,7 @@ void	parsing(std::string str, int& type)
 		std::cerr << "Error: cannot convert Empty string!" << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	// if (multiple_decimals(str))
-	// 	type = INVALID;
-	// if (type != INVALID)
-		type = detectType(str);
+	type = detectType(str);
 	if (type == FLOAT && !isValidFloatFormat(str))
 		type = INVALID;
 	if (type == DOUBLE && !isValidDoubleFormat(str))
