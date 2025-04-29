@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 08:49:58 by dhuss             #+#    #+#             */
-/*   Updated: 2025/04/03 08:49:59 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/04/29 10:41:38 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,5 @@ int	main(void)
 	identify(base);
 	std::cout << "\033[33m- identify using reference to Base Object\033[37m" << std::endl;
 	identify(*base);
+	delete base;
 }
